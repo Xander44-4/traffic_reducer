@@ -1,59 +1,105 @@
 # Traffic Reducer
+### Sistema Inteligente para la Optimización del Tráfico Urbano
 
-##  Problema
+## Descripción General
+Traffic Reducer es un sistema basado en **inteligencia artificial** diseñado para optimizar el flujo vehicular en intersecciones urbanas. El proyecto surge como respuesta a las limitaciones de los sistemas semafóricos tradicionales, los cuales operan con temporizaciones fijas que no se adaptan a las condiciones reales del tránsito.
 
-Muchos Paises enfrentan una problemática en la gestión del tráfico: los semáforos operan en temporización fija que no reflejan las condiciones reales del flujo vehicular. Este desfase entre la demanda de tránsito y la lógica de control genera:
-
-- **Largas filas en algunos carriles** mientras otros permanecen vacíos
-- **Aumento del tiempo de espera** y pérdida de tiempo productivo
-- **Congestión innecesaria** en intersecciones críticas
-- **Mayor consumo de combustible** y estrés para los conductores
-- **Riesgo para vehículos de emergencia** (ambulancias, bomberos, patrullas) cuando un tapón en un semáforo les impide avanzar rápidamente
-
-##  Solución
-
-Traffic Reducer es una solución basada en **inteligencia artificial** orientada a mejorar la gestión del tráfico vehicular en intersecciones urbanas. El sistema:
-
-- **Analiza visualmente** el volumen de vehículos por dirección mediante cámaras
-- **Utiliza IA** para procesar la información en tiempo real
-- **Prioriza dinámicamente** las vías con mayor carga vehicular
-- **Automatiza la toma de decisiones** sobre el control semafórico
-- **Se adapta** a las condiciones reales del tránsito momento a momento
-
-
-##  Objetivos del Proyecto
-
-### Objetivo Principal
-**Disminuir el tiempo promedio de espera** de los vehículos en intersecciones, automatizando la decisión de qué semáforo debe ponerse en verde mediante un modelo de IA.
-
-### Métricas de Impacto
-- Reducción del tiempo promedio de espera en intersecciones
-- Disminución de la longitud de las filas vehiculares
-- Reducción del número de detenciones innecesarias
-- Mejora en la fluidez general del tráfico
-
-### Valor Generado
-
-**Social:**
-- Mejora la experiencia de desplazamiento diario
-- Reduce niveles de estrés asociados al tránsito
-- Facilita el paso de servicios esenciales (ambulancias, bomberos, transporte público)
-
-**Ambiental:**
-- Disminuye el tiempo que los vehículos permanecen detenidos
-- Reduce emisiones contaminantes
-- Disminuye el consumo de combustibles fósiles
-- Reduce la contaminación acústica
-
-**Económico:**
-- Solución de bajo costo vs. sistemas tradicionales
-- Reduce pérdida de tiempo productivo
-- Optimiza el consumo de combustible
-- Viable para ciudades con restricciones presupuestarias
+Mediante el uso de visión por computadora y modelos inteligentes de toma de decisiones, Traffic Reducer permite una gestión dinámica, segura y eficiente del tráfico urbano.
 
 ---
 
-*Traffic Reducer: Inteligencia artificial al servicio de la movilidad urbana*
+## Planteamiento del Problema
+En muchos países, los semáforos funcionan bajo configuraciones estáticas que no consideran las variaciones del flujo vehicular en tiempo real. Esta situación genera múltiples consecuencias negativas, tales como:
+
+- Congestión frecuente en intersecciones críticas  
+- Largas filas vehiculares en ciertos carriles mientras otros permanecen subutilizados  
+- Incremento en los tiempos de espera y pérdida de productividad  
+- Mayor consumo de combustible y emisiones contaminantes  
+- Aumento del estrés en conductores y peatones  
+- Retrasos en la circulación de vehículos de emergencia (ambulancias, bomberos y policía)  
+
+---
+
+## Solución Propuesta
+Traffic Reducer propone un modelo inteligente y adaptativo para el control semafórico, capaz de responder a las condiciones reales del tránsito.
+
+El sistema:
+
+- Analiza el volumen y densidad vehicular mediante cámaras en intersecciones  
+- Detecta peatones en cruces y pasos peatonales  
+- Identifica vehículos de emergencia a través de patrones visuales y señales prioritarias  
+- Procesa la información en tiempo real utilizando inteligencia artificial  
+- Ajusta dinámicamente las fases y tiempos de los semáforos  
+- Prioriza automáticamente a peatones y servicios de emergencia cuando es necesario  
+
+---
+
+## Gestión Inteligente de Prioridades
+El modelo ha sido optimizado para otorgar **prioridad contextual** en escenarios críticos, tales como:
+
+- Cruce seguro y oportuno de peatones  
+- Paso inmediato de ambulancias, unidades de bomberos y patrullas policiales  
+- Reducción de tiempos de respuesta ante emergencias  
+- Balance entre fluidez vehicular y seguridad vial  
+
+Este enfoque garantiza que la optimización del tráfico no comprometa la seguridad humana.
+
+---
+
+## Objetivos del Proyecto
+
+### Objetivo General
+Reducir el tiempo promedio de espera de los vehículos en intersecciones urbanas mediante la automatización del control semafórico utilizando inteligencia artificial.
+
+### Objetivos Específicos
+- Optimizar el flujo vehicular en tiempo real  
+- Disminuir la congestión en intersecciones de alta demanda  
+- Garantizar prioridad a peatones y vehículos de emergencia  
+- Mejorar la seguridad vial  
+- Reducir el impacto ambiental del tránsito urbano  
+
+---
+
+## Métricas de Evaluación
+El desempeño del sistema puede evaluarse a través de las siguientes métricas:
+
+- Reducción del tiempo promedio de espera  
+- Disminución de la longitud de las filas vehiculares  
+- Reducción de detenciones innecesarias  
+- Incremento de la velocidad promedio de circulación  
+- Mejora en los tiempos de respuesta de los servicios de emergencia  
+
+---
+
+## Propuesta de Valor
+
+### Impacto Social
+- Mejora en la experiencia de movilidad diaria  
+- Mayor seguridad para peatones  
+- Reducción del estrés asociado al tránsito  
+- Facilitación del desplazamiento de servicios esenciales  
+
+### Impacto Ambiental
+- Disminución del tiempo de ralentí vehicular  
+- Reducción de emisiones contaminantes  
+- Menor consumo de combustibles fósiles  
+- Disminución de la contaminación acústica  
+
+### Impacto Económico
+- Alternativa de bajo costo frente a sistemas tradicionales  
+- Reducción de pérdidas por tiempo improductivo  
+- Optimización del consumo de combustible  
+- Viabilidad para ciudades con presupuestos limitados  
+
+---
+
+## Conclusión
+Traffic Reducer demuestra cómo la inteligencia artificial puede aplicarse de forma efectiva a los desafíos de la movilidad urbana. Su enfoque adaptativo permite una gestión más eficiente, segura y sostenible del tránsito, priorizando la vida humana y optimizando la infraestructura existente.
+
+---
+
+## Traffic Reducer
+**Inteligencia artificial al servicio de la movilidad urbana**
 
 
 
