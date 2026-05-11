@@ -1,133 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Reducer AI</title>
+    <title>Traffic Reducer — Control Inteligente de Tráfico</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
-        rel="stylesheet">
 </head>
-
 <body>
-    <div class="app-container">
-        <header>
-            <h1>TRAFFIC REDUCER <span class="ai-badge">AI</span></h1>
-            <p>Adaptive Traffic Control System</p>
-        </header>
 
-        <main>
-            <!-- Camera Feed Section -->
-            <div class="camera-section">
-                <div class="monitor-frame" id="security-monitor">
-                    <div class="screen">
-                        <!-- Stream processed video from backend -->
-                        <img src="{{ url_for('video_feed') }}" alt="Processing Feed..." id="cam-feed">
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 10px;">
-                    <button class="cv-btn" id="activate-cv">ACTIVATE TRAFFIC CONTROL</button>
-                </div>
+    <div class="modal-overlay" id="source-modal" hidden>
+        <div class="modal-card">
+            <p class="modal-eyebrow">Traffic Reducer</p>
+            <h2 class="modal-title">Elige una fuente</h2>
+            <p class="modal-sub">Selecciona qué video procesará la IA para detectar tráfico en tiempo real.</p>
+            <div class="modal-options">
+                <button class="modal-option" id="modal-pick-live">
+                    <span class="modal-option-label">Stream en vivo</span>
+                    <span class="modal-option-desc">Cámara de tráfico en YouTube</span>
+                </button>
+                <button class="modal-option" id="modal-pick-local">
+                    <span class="modal-option-label">Video local</span>
+                    <span class="modal-option-desc">Drone view en bucle</span>
+                </button>
             </div>
-
-            <!-- Visualizer Section -->
-            <div class="intersection-container">
-                <div class="road north">
-                    <span class="road-label">NORTE</span>
-                    <div class="lane">
-                        <div class="cars" id="cars-north"></div>
-                        <div class="stop-line"></div>
-                    </div>
-                </div>
-                <div class="road south">
-                    <span class="road-label">SUR</span>
-                    <div class="lane">
-                        <div class="stop-line"></div>
-                        <div class="cars" id="cars-south"></div>
-                    </div>
-                </div>
-                <div class="road east">
-                    <span class="road-label">ESTE</span>
-                    <div class="lane">
-                        <div class="cars" id="cars-east"></div>
-                        <div class="stop-line"></div>
-                    </div>
-                </div>
-                <div class="road west">
-                    <span class="road-label">OESTE</span>
-                    <div class="lane">
-                        <div class="stop-line"></div>
-                        <div class="cars" id="cars-west"></div>
-                    </div>
-                </div>
-
-                <div class="center-junction">
-                    <div class="traffic-light north-light" id="light-north">
-                        <span class="light-label">N</span>
-                        <div class="bulb red active"></div>
-                        <div class="bulb green"></div>
-                    </div>
-                    <div class="traffic-light south-light" id="light-south">
-                        <span class="light-label">S</span>
-                        <div class="bulb red active"></div>
-                        <div class="bulb green"></div>
-                    </div>
-                    <div class="traffic-light east-light" id="light-east">
-                        <span class="light-label">E</span>
-                        <div class="bulb red active"></div>
-                        <div class="bulb green"></div>
-                    </div>
-                    <div class="traffic-light west-light" id="light-west">
-                        <span class="light-label">W</span>
-                        <div class="bulb red active"></div>
-                        <div class="bulb green"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Controls Section -->
-            <div class="controls-panel">
-                <div class="control-group">
-                    <div class="mode-switch">
-                        <label class="switch">
-                            <input type="checkbox" id="live-mode-toggle">
-                            <span class="slider round"></span>
-                        </label>
-                        <span>LIVE SIMULATION MODE</span>
-                    </div>
-                    <div class="status-display">
-                        PRIORITY: <span id="priority-result">--</span>
-                    </div>
-                </div>
-
-                <div class="inputs-grid">
-                    <div class="input-card">
-                        <label>NORTE (North)</label>
-                        <input type="range" id="input-north" min="0" max="100" value="10">
-                        <span class="value-display" id="val-north">10</span> cars
-                    </div>
-                    <div class="input-card">
-                        <label>SUR (South)</label>
-                        <input type="range" id="input-south" min="0" max="100" value="10">
-                        <span class="value-display" id="val-south">10</span> cars
-                    </div>
-                    <div class="input-card">
-                        <label>ESTE (East)</label>
-                        <input type="range" id="input-east" min="0" max="100" value="10">
-                        <span class="value-display" id="val-east">10</span> cars
-                    </div>
-                    <div class="input-card">
-                        <label>OESTE (West)</label>
-                        <input type="range" id="input-west" min="0" max="100" value="10">
-                        <span class="value-display" id="val-west">10</span> cars
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a class="nav-brand" href="#">Traffic<strong>Reducer</strong></a>
+            <div class="nav-actions">
+                <button class="btn-primary" id="activate-cv">Activar Control</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="hero">
+            <p class="hero-eyebrow">Sistema Adaptativo de Semáforos</p>
+            <h1 class="hero-headline">Tráfico.<br>Inteligente.</h1>
+            <p class="hero-sub">Visión por computadora y aprendizaje automático optimizando intersecciones en tiempo real, sin intervención humana.</p>
+            <div class="hero-controls">
+                <label class="live-toggle">
+                    <input type="checkbox" id="live-mode-toggle">
+                    <span class="toggle-pill"></span>
+                    <span class="toggle-label">Simulación en vivo</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- Camera Feed -->
+        <section class="section-band">
+            <div class="container">
+                <div class="card feed-card">
+                    <div class="feed-header">
+                        <div class="feed-meta">
+                            <span class="live-badge" id="source-badge">● EN VIVO</span>
+                            <h2 class="card-headline">Cámara de Intersección</h2>
+                            <p class="card-body">Análisis de flujo vehicular mediante visión por computadora en tiempo real.</p>
+                        </div>
+                        <div class="source-switcher" id="source-switcher">
+                            <button class="source-btn source-btn--active" id="btn-source-live">EN VIVO</button>
+                            <button class="source-btn" id="btn-source-local">VIDEO LOCAL</button>
+                        </div>
+                    </div>
+
+                    <div class="feed-grid">
+                        <div class="feed-viewport">
+                            <img src="{{ url_for('video_feed') }}" alt="Feed de cámara de tráfico" id="cam-feed">
+                        </div>
+
+                        <aside class="feed-sidebar">
+                            <div class="side-block">
+                                <p class="side-label">Decisión IA</p>
+                                <p class="side-value side-value--accent" id="side-phase">--</p>
+                            </div>
+
+                            <div class="side-block">
+                                <p class="side-label">Vehículos por dirección</p>
+                                <div class="side-counts">
+                                    <div class="side-count">
+                                        <span class="side-count-label">N</span>
+                                        <span class="side-count-num" id="side-norte">0</span>
+                                    </div>
+                                    <div class="side-count">
+                                        <span class="side-count-label">S</span>
+                                        <span class="side-count-num" id="side-sur">0</span>
+                                    </div>
+                                    <div class="side-count">
+                                        <span class="side-count-label">E</span>
+                                        <span class="side-count-num" id="side-este">0</span>
+                                    </div>
+                                    <div class="side-count">
+                                        <span class="side-count-label">O</span>
+                                        <span class="side-count-num" id="side-oeste">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="side-block side-block--row">
+                                <div>
+                                    <p class="side-label">Peatones</p>
+                                    <p class="side-value" id="side-peds">0</p>
+                                </div>
+                                <div>
+                                    <p class="side-label">Emergencia</p>
+                                    <p class="side-value" id="side-emergency">NO</p>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status + Intersection -->
+        <section class="section-band section-band--fog">
+            <div class="container">
+
+                <div class="status-grid">
+                    <div class="card stat-card">
+                        <p class="stat-label">Prioridad activa</p>
+                        <p class="stat-value" id="priority-result">--</p>
+                    </div>
+                    <div class="card stat-card">
+                        <p class="stat-label">Peatones detectados</p>
+                        <p class="stat-value" id="pedestrian-count">0</p>
+                    </div>
+                    <div class="card stat-card">
+                        <p class="stat-label">Vehículo de emergencia</p>
+                        <p class="stat-value" id="emergency-status">NO</p>
+                    </div>
+                </div>
+
+                <div class="card intersection-card">
+                    <h2 class="card-headline">Intersección en tiempo real</h2>
+                    <p class="card-body">El modelo elige la dirección con mayor flujo y activa su semáforo en verde.</p>
+
+                    <div class="intersection-container">
+                        <div class="road north">
+                            <span class="road-label">NORTE</span>
+                            <div class="lane">
+                                <div class="cars" id="cars-north"></div>
+                                <div class="stop-line"></div>
+                            </div>
+                        </div>
+                        <div class="road south">
+                            <span class="road-label">SUR</span>
+                            <div class="lane">
+                                <div class="stop-line"></div>
+                                <div class="cars" id="cars-south"></div>
+                            </div>
+                        </div>
+                        <div class="road east">
+                            <span class="road-label">ESTE</span>
+                            <div class="lane lane--h">
+                                <div class="cars" id="cars-east"></div>
+                                <div class="stop-line stop-line--v"></div>
+                            </div>
+                        </div>
+                        <div class="road west">
+                            <span class="road-label">OESTE</span>
+                            <div class="lane lane--h">
+                                <div class="stop-line stop-line--v"></div>
+                                <div class="cars" id="cars-west"></div>
+                            </div>
+                        </div>
+
+                        <div class="center-junction">
+                            <div class="traffic-light north-light" id="light-north">
+                                <span class="light-label">N</span>
+                                <div class="bulb red active"></div>
+                                <div class="bulb green"></div>
+                            </div>
+                            <div class="traffic-light south-light" id="light-south">
+                                <span class="light-label">S</span>
+                                <div class="bulb red active"></div>
+                                <div class="bulb green"></div>
+                            </div>
+                            <div class="traffic-light east-light" id="light-east">
+                                <span class="light-label">E</span>
+                                <div class="bulb red active"></div>
+                                <div class="bulb green"></div>
+                            </div>
+                            <div class="traffic-light west-light" id="light-west">
+                                <span class="light-label">W</span>
+                                <div class="bulb red active"></div>
+                                <div class="bulb green"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="section-band">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-headline">Control Manual</h2>
+                    <p class="section-sub">Ajusta el flujo vehicular por dirección para ver cómo responde el modelo.</p>
+                </div>
+                <div class="inputs-grid">
+                    <div class="card input-card">
+                        <label class="input-label" for="input-north">Norte</label>
+                        <input type="range" id="input-north" min="0" max="100" value="10">
+                        <div class="input-value-row">
+                            <span class="input-value-num" id="val-north">10</span>
+                            <span class="input-value-unit">vehículos</span>
+                        </div>
+                    </div>
+                    <div class="card input-card">
+                        <label class="input-label" for="input-south">Sur</label>
+                        <input type="range" id="input-south" min="0" max="100" value="10">
+                        <div class="input-value-row">
+                            <span class="input-value-num" id="val-south">10</span>
+                            <span class="input-value-unit">vehículos</span>
+                        </div>
+                    </div>
+                    <div class="card input-card">
+                        <label class="input-label" for="input-east">Este</label>
+                        <input type="range" id="input-east" min="0" max="100" value="10">
+                        <div class="input-value-row">
+                            <span class="input-value-num" id="val-east">10</span>
+                            <span class="input-value-unit">vehículos</span>
+                        </div>
+                    </div>
+                    <div class="card input-card">
+                        <label class="input-label" for="input-west">Oeste</label>
+                        <input type="range" id="input-west" min="0" max="100" value="10">
+                        <div class="input-value-row">
+                            <span class="input-value-num" id="val-west">10</span>
+                            <span class="input-value-unit">vehículos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
-
 </html>
